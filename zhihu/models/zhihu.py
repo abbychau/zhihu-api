@@ -8,9 +8,41 @@ from zhihu.decorators.auth import authenticated
 from zhihu.decorators.slug import slug
 from zhihu.error import ZhihuError
 from zhihu.url import URL
-
+from zhihu.models import RequestDataType
+import random
 
 class Zhihu(Model):
+
+    @authenticated
+    def create_pin(self, content):
+        """
+        寫想法
+        :param content 想法内容
+        Usege::
+
+          >>> create_pin(content = "testing 中文")
+        """
+        boundary = "------WebKitFormBoundary" + str(random.random()).replace(".","A")
+        data = "\n".join(
+            (boundary,
+            'Content-Disposition: form-data; name="content"',
+            '[{"type":"text","content":"<p>' + content + '</p>"}]',
+            boundary,
+            'Content-Disposition: form-data; name="version"',
+            '',
+            '',
+            '1',
+            boundary,
+            'Content-Disposition: form-data; name="source_pin_id"',
+            '',
+            '0',
+            boundary + '--'
+        )).encode('utf-8')
+        print(URL.create_pin())
+        print(data)
+        response = self._execute(method='post', url=URL.create_pin(), data=data, data_type=RequestDataType.FORM)
+        return response
+
     @authenticated
     def send_message(self, content, user_id=None, user_url=None, user_slug=None):
         """

@@ -1,6 +1,4 @@
 # encoding: utf-8
-import randomxx
-
 from zhihu import Answer
 import unittest
 import time

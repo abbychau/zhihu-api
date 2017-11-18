@@ -11,6 +11,11 @@ class URL(object):
     zhuanlan_host = "https://zhuanlan.zhihu.com"
 
     @classmethod
+    def create_pin(cls):
+        # 寫想法
+        return cls.host + "/api/v4/pins"
+
+    @classmethod
     def email_login(cls):
         # 邮箱登录
         return cls.host + "/login/email"

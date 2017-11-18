@@ -71,7 +71,7 @@ class Account(Model):
         r = super(Account, self)._execute(method="post",
                                           url=URL.register_validate(),
                                           data=data,
-                                          data_type=RequestDataType.FORM_DATA)
+                                          data_type=RequestDataType.FORM)
         if r.ok and r.json().get("r") == 0:
             return True
         else:
@@ -98,7 +98,7 @@ class Account(Model):
             code = input("输入短信验证码:")
             data['verification_code'] = code
             data.pop("captcha")
-            r = self._execute(method="post", url=URL.register(), data=data, data_type=RequestDataType.FORM_DATA)
+            r = self._execute(method="post", url=URL.register(), data=data, data_type=RequestDataType.FORM)
             if r.ok and r.json().get("r") == 0:
                 self.log("注册成功")
                 return r.json()
